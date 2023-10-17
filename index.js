@@ -11,7 +11,7 @@ app.use(cors());
 
 // initial endpoints
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.db_user}:${process.env.db_pass}@cluster0.lzg5hog.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -57,8 +57,19 @@ async function run() {
       const result = await carCollection.find().toArray();
       res.send(result);
     });
-    // get single car data
-    app.get("/cars/:id", async (req, res) => {});
+    // get multiple  car data with brand name
+    app.get("/cars/:brand_name", async (req, res) => {
+      const brand_name = req.params.brand_name;
+      const query = { brand_name: brand_name };
+      const result = await carCollection.find(query).toArray();
+      res.send(result);
+    });
+    app.get("/cars/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await carCollection.findOne(query);
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
