@@ -64,7 +64,8 @@ async function run() {
       const result = await carCollection.find(query).toArray();
       res.send(result);
     });
-    app.get("/cars/:id", async (req, res) => {
+    // get single car data
+    app.get("/car/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await carCollection.findOne(query);
