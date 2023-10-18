@@ -35,6 +35,7 @@ async function run() {
     // collections
     const brandCollection = client.db("drivyDB").collection("brands");
     const carCollection = client.db("drivyDB").collection("cars");
+    const cartCollection = client.db("drivyDB").collection("cart");
     //post brand data
     app.post("/brands", async (req, res) => {
       const data = req.body;
