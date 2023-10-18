@@ -113,9 +113,24 @@ async function run() {
     //get  cart data by email
     app.get("/carts/:email", async (req, res) => {
       const email = req.params.email;
-      console.log(email);
       const query = { email: email };
       const result = await cartCollection.find(query).toArray();
+      res.send(result);
+    });
+    //delete card data by id
+    app.delete("/carts/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await cartCollection.deleteOne(query);
+      res.send(result);
+    });
+    //delete many
+    app.delete("/cart/:email", async (req, res) => {
+      const email = req.params.email;
+      console.log(email);
+      const query = { email: email };
+      const result = await cartCollection.deleteMany(query);
       res.send(result);
     });
   } finally {
