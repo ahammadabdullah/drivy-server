@@ -96,6 +96,13 @@ async function run() {
       const result = await cartCollection.find().toArray();
       res.send(result);
     });
+    // post cart data
+
+    app.post("/cart", async (req, res) => {
+      const car = req.body;
+      const result = await cartCollection.insertOne(car);
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
