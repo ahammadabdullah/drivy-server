@@ -71,6 +71,26 @@ async function run() {
       const result = await carCollection.findOne(query);
       res.send(result);
     });
+    //update single car data
+    app.put("/car/:id", async (req, res) => {
+      const id = req.params.id;
+      const data = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedCar = {
+        $set: {
+          ImageURL: data.ImageURL,
+          brand_name: data.brand_name,
+          Name: data.Name,
+          type: data.type,
+          price: data.price,
+          rating: data.rating,
+          short_description: data.short_description,
+        },
+      };
+      const result = await carCollection.updateOne(filter, updatedCar, options);
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
