@@ -80,7 +80,6 @@ async function run() {
       const updatedCar = {
         $set: {
           ImageURL: data.ImageURL,
-          brand_name: data.brand_name,
           Name: data.Name,
           type: data.type,
           price: data.price,
