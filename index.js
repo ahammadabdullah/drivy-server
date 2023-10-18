@@ -91,6 +91,11 @@ async function run() {
       const result = await carCollection.updateOne(filter, updatedCar, options);
       res.send(result);
     });
+    // get cart data
+    app.get("/cart", async (req, res) => {
+      const result = await cartCollection.find().toArray();
+      res.send(result);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
