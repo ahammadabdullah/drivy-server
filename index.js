@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      // "http://localhost:5173",
+      "http://localhost:5173",
       "https://drivy-auth.web.app",
       "https://drivy-auth.firebaseapp.com",
     ],
@@ -36,9 +36,6 @@ const verifier = (req, res, next) => {
       next();
     }
   });
-
-  console.log("token in mdidleware", token);
-  // next();
 };
 // initial endpoints
 
@@ -71,9 +68,21 @@ async function run() {
 
     app.post("/jwt", async (req, res) => {
       const user = req.body;
-      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "1h",
+      });
       res
         .cookie("token", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+        })
+        .send({ success: true });
+    });
+    app.post("/logout", async (req, res) => {
+      const user = req.body;
+      res
+        .clearCookie("token", {
           httpOnly: true,
           secure: true,
           sameSite: "none",
